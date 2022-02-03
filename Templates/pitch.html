@@ -1,0 +1,36 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}
+Pitching Video Upload
+{% endblock %}
+
+{% block styles %}
+{{ super() }}
+    <link rel="stylesheet" href="{{url_for('.static', filename='starter-template.css')}}">
+    <link rel="stylesheet" href="{{url_for('.static', filename='pitch_style.css')}}">
+{% endblock %}
+
+{% block content %}
+    {% include 'navbar.html' %}
+
+    <div class="container">
+      <div class="starter-template">
+          <h1 class="alert alert-info">Upload the video here</h1>
+          
+          {% if upload %}
+            <video id="video" controls autoplay loop>
+                <source src="/static/upload/{{ filename }}" type="video/mp4">
+            </video>
+          {% else %}
+            <img src="/static/images/Cricket-Stadium.jpg" id="canvas">
+          {% endif %} 
+
+          <form method="post" action="/pitch" enctype="multipart/form-data">
+              {{form.hidden_tag()}}
+              {{wtf.form_field(form.file_upload, class="file_upload", accept="video/*")}}
+              <button type="submit" class="btn btn-info">Upload Video</button>
+          </form>
+      </div>
+    </div>
+    <script src="{{url_for('.static', filename='pitch.js')}}"></script>
+{% endblock %}
