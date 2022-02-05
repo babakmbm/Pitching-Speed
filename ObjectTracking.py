@@ -4,11 +4,45 @@ import cv2
 from random import randint
 import numpy as np
 
+STD_DIMENSIONS = {
+    "480": (640, 480),
+    "720": (1280, 720),
+    "1080p": (1920, 1080),
+    "4k": (3840, 2160)
+}
+
+def change_res(cap, width, height):
+    cap.set(3, width)
+    cap.set(4, height)
+
+# video capture
+def capture_video():
+    cap = cv2.VideoCapture(0)
+    # Define the codec and create VideoWriter object
+    fourcc = cv2.VideoWriter_fourcc(*'XVID')
+    out = cv2.VideoWriter('output.avi', fourcc, 20.0, (640, 480))
+    while cap.isOpened():
+        ret, frame = cap.read()
+        if not ret:
+            print("Can't receive frame (stream end?). Exiting ...")
+            break
+        frame = cv2.flip(frame, 0)
+        # write the flipped frame
+        out.write(frame)
+        cv2.imshow('frame', frame)
+        if cv2.waitKey(1) == ord('q'):
+            break
+    # Release everything if job is finished
+    cap.release()
+    out.release()
+    cv2.destroyAllWindows()
+
 
 class ObjectTracking():
     def __init__(self, tracking_algorithm, video_path):
         self.tracking_algorithm = tracking_algorithm
         self.video_path = video_path
+        self.save_path = 'static/tracked'
 
     def track_with(self, tracking_type):
         if tracking_type == 'BOOSTING' or 'Boosting' or 'boosting':
@@ -36,6 +70,8 @@ class ObjectTracking():
 
     def track_video_single(self):
         video = cv2.VideoCapture(self.video_path)
+        fourcc = cv2.VideoWriter_fourcc(*'XVID')
+        out = cv2.VideoWriter('static/tracked/output.mp4', fourcc, 20.0, (int(video.get(3)), int(video.get(4))), 1)
         if not video.isOpened():
             print('Cannot open file or video stream!')
             sys.exit()
@@ -63,6 +99,7 @@ class ObjectTracking():
                 cv2.putText(frame, f'ALGORITHM: {self.tracking_algorithm}', (100, 25), cv2.FONT_HERSHEY_SIMPLEX, 0.75,
                             (0, 0, 255), 2)
                 cv2.imshow('Tracking Window', frame)
+                out.write(frame)
                 if cv2.waitKey(1) & 0XFF == 27:
                     break
         else:
@@ -110,8 +147,9 @@ class ObjectTracking():
             if cv2.waitKey(1) & 0XFF == 27:
                 break
 
-
 # test section
 # ----'BOOSTING', 'MIL', 'KCF', 'TLD', 'MEDIANFLOW', 'MOSSE', 'CSRT', 'GOTURN'----
-tr = ObjectTracking("GOTURN", 'static/upload/PENALTY KICK.mp4')
+'''tr = ObjectTracking("GOTURN", 'static/upload/Weeti (9 years old) - INCREDIBLE football penalty kick.mp4')
 tr.track_video_single()
+
+#capture_video()'''

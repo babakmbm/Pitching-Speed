@@ -111,8 +111,8 @@ def pitch():
         path_save = os.path.join(UPLOAD_PATH, filename)
         #print(path_save)
         upload_file.save(path_save)
-        tracking = ObjectTracking("Boosting", path_save)
-        tracking.track_video()
+        #tracking = ObjectTracking("Boosting", path_save)
+        #tracking.track_video_single()
         return render_template('pitch.html', form=form, filename=filename, upload=True)
 
     return render_template('pitch.html', form=form, upload=False)
