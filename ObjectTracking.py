@@ -45,7 +45,7 @@ class ObjectTracking():
         self.save_path = 'static/tracked'
 
     def track_with(self, tracking_type):
-        if tracking_type == 'BOOSTING' or 'Boosting' or 'boosting':
+        if tracking_type == 'BOOSTING':
             tracker = cv2.legacy.TrackerBoosting_create()
         elif tracking_type == 'MIL':
             tracker = cv2.legacy.TrackerMIL_create()
@@ -82,6 +82,7 @@ class ObjectTracking():
 
             # choosing and initializing the algorithm
             tracker = self.track_with(self.tracking_algorithm)
+            print(tracker)
             ret = tracker.init(frame, bBox)
             while True:
                 ret, frame = video.read()
@@ -149,7 +150,7 @@ class ObjectTracking():
 
 # test section
 # ----'BOOSTING', 'MIL', 'KCF', 'TLD', 'MEDIANFLOW', 'MOSSE', 'CSRT', 'GOTURN'----
-'''tr = ObjectTracking("GOTURN", 'static/upload/Weeti (9 years old) - INCREDIBLE football penalty kick.mp4')
-tr.track_video_single()
+'''tr = ObjectTracking("CSRT", 'static/upload/KidPenalty.mp4')
+tr.track_video_single()'''
 
 #capture_video()'''
