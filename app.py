@@ -21,10 +21,9 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
-
-
 UPLOAD_PATH = 'D:\Students\Das\Baseball Analysis\Pitching Speed\static\\upload\\'
 print(UPLOAD_PATH)
+
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -39,6 +38,7 @@ class User(UserMixin, db.Model):
     phone_number = db.Column(db.String(20), unique=True)
     role = db.Column(db.String(15))
 
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -48,6 +48,7 @@ class LoginForm(FlaskForm):
     username = StringField('username', validators=[InputRequired(), Length(min=5, max=15)])
     password = PasswordField('password', validators=[InputRequired(), Length(min=8, max=80)])
     remember = BooleanField('remember_me')
+
 
 class SignupForm(FlaskForm):
     firstname = StringField('firstname', validators=[InputRequired(), Length(min=3, max=15)])
@@ -61,8 +62,10 @@ class SignupForm(FlaskForm):
     phone_number = StringField('phone_number', validators=[InputRequired(), Length(min=5, max=20)])
     role = StringField('role', validators=[InputRequired(), Length(min=5, max=10)])
 
+
 class UploadForm(FlaskForm):
     file_upload = FileField('file_upload')
+
 
 @app.route('/')
 def index():
@@ -109,19 +112,21 @@ def pitch():
         upload_file = request.files['file_upload']
         filename = upload_file.filename
         path_save = os.path.join(UPLOAD_PATH, filename)
-        #print(path_save)
+        # print(path_save)
         upload_file.save(path_save)
-        #tracking = ObjectTracking("Boosting", path_save)
-        #tracking.track_video_single()
+        # tracking = ObjectTracking("Boosting", path_save)
+        # tracking.track_video_single()
         return render_template('pitch.html', form=form, filename=filename, upload=True)
 
     return render_template('pitch.html', form=form, upload=False)
+
 
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
 
 if __name__ == "__main__":
     app.run(debug=True)

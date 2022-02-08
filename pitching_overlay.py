@@ -23,14 +23,14 @@ if __name__ == '__main__':
     optparser.add_option('-f', '--videos_folder',
                          dest='rootDir',
                          help='Root directory that contains your pitching videos',
-                         default='./videos/videos')
+                         default='videos')
     (options, args) = optparser.parse_args()
 
     # Initialize variables
     size = 416
     iou = 0.45
     score = 0.5
-    weights = './model/yolov4-tiny-baseball-416'
+    weights = 'static/model/yolov4-tiny-baseball-416'
 
     # Load pretrained model
     saved_model_loaded = tf.saved_model.load(weights, tags=[tag_constants.SERVING])
@@ -43,7 +43,7 @@ if __name__ == '__main__':
 
     # Iterate all videos in the folder
     for idx, path in enumerate(os.listdir(rootDir)):
-        print(f'Processing Video {idx + 1}')
+        #print(f'Processing Video {idx + 1}')
         video_path = rootDir + '/' + path
         try:
             ball_frames, width, height, fps = get_pitch_frames(video_path, infer, size, iou, score)

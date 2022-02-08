@@ -6,8 +6,8 @@ Pitching Video Upload
 
 {% block styles %}
 {{ super() }}
-    <link rel="stylesheet" href="{{url_for('.static', filename='starter-template.css')}}">
-    <link rel="stylesheet" href="{{url_for('.static', filename='pitch_style.css')}}">
+    <link rel="stylesheet" href="{{url_for('.static', filename='styles/starter-template.css')}}">
+    <link rel="stylesheet" href="{{url_for('.static', filename='styles/pitch_style.css')}}">
 {% endblock %}
 
 {% block content %}
@@ -32,5 +32,5 @@ Pitching Video Upload
           </form>
       </div>
     </div>
-    <script src="{{url_for('.static', filename='pitch.js')}}"></script>
+    <script src="{{url_for('.static', filename='javascript/pitch.js')}}"></script>
 {% endblock %}
