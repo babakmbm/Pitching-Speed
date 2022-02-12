@@ -1,13 +1,22 @@
 import sys
 import cv2
 import os
+# suppress Warnings
+'''
+0 = all messages are logged (default behavior)
+1 = INFO messages are not printed
+2 = INFO and WARNING messages are not printed
+3 = INFO, WARNING, and ERROR messages are not printed
+'''
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+
 import numpy as np
 from ObjectTracking import ObjectTracking
-
 import tensorflow as tf
 from src.get_pitch_frames import get_pitch_frames
 from src.generate_overlay import generate_overlay
 
+from utils import video_to_frames
 
 class ObjectDetection:
     def __init__(self):
@@ -84,7 +93,7 @@ class ObjectDetection:
         if len(pitch_frames):
             generate_overlay(pitch_frames, width, height, fps, output_path)
 
-    def ball_detection(self, live=True, video_path=""):
+    def ball_detection_HoughCircles(self, live=True, video_path=""):
         if live:
             video = cv2.VideoCapture(1)
         else:
@@ -113,7 +122,8 @@ class ObjectDetection:
                     if chosen_circle is None:
                         chosen_circle = i
                     if previousCircle is not None:
-                        if distance(chosen_circle[0], chosen_circle[1], previousCircle[0], previousCircle[1]) <= distance(i[0], i[1], previousCircle[0], previousCircle[1]):
+                        if distance(chosen_circle[0], chosen_circle[1], previousCircle[0],
+                                    previousCircle[1]) <= distance(i[0], i[1], previousCircle[0], previousCircle[1]):
                             chosen_circle = i
 
                 cv2.circle(frame, (chosen_circle[0], chosen_circle[1]), 1, (0, 255, 0), 3)
@@ -133,6 +143,6 @@ obd = ObjectDetection()
 # bBox = obd.detect_track_video('static/upload/PENALTY KICK.mp4')
 # print(bBox)
 
-# obd.yolov4_ball_detection('static/upload/11.mp4')
-
-obd.ball_detection()
+# obd.yolov4_ball_detection('static/upload/9-cut.mp4')
+# obd.ball_detection_HoughCircles()
+video_to_frames(video_path='static/upload/1.mp4')
