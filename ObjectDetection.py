@@ -16,7 +16,6 @@ import tensorflow as tf
 from src.get_pitch_frames import get_pitch_frames
 from src.generate_overlay import generate_overlay
 
-from utils import video_to_frames
 
 class ObjectDetection:
     def __init__(self):
@@ -145,4 +144,4 @@ obd = ObjectDetection()
 
 # obd.yolov4_ball_detection('static/upload/9-cut.mp4')
 # obd.ball_detection_HoughCircles()
-video_to_frames(video_path='static/upload/1.mp4')
+
