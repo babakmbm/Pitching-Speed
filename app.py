@@ -11,6 +11,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from ObjectTracking import ObjectTracking
+from DataPreperation_yolo import DataPrepration
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'DASSECRETKEY'
@@ -20,7 +21,7 @@ db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
-
+data_prep = DataPrepration()
 UPLOAD_PATH = 'D:\Students\Das\Baseball Analysis\Pitching Speed\static\\upload\\'
 print(UPLOAD_PATH)
 
@@ -119,6 +120,12 @@ def pitch():
         return render_template('pitch.html', form=form, filename=filename, upload=True)
 
     return render_template('pitch.html', form=form, upload=False)
+
+@app.route('/labeling', methods=['GET', 'POST'])
+def labeling():
+    if request.method == 'POST':
+        data_prep.label_images()
+    return render_template('image_labeling.html')
 
 
 @app.route('/logout')
