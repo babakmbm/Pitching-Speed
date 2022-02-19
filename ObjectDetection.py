@@ -137,7 +137,7 @@ class ObjectDetection:
         cv2.destroyAllWindows()
 
 
-obd = ObjectDetection()
+#obd = ObjectDetection()
 # ob.detect_image('static/images/people_2.jpg')
 # bBox = obd.detect_track_video('static/upload/PENALTY KICK.mp4')
 # print(bBox)

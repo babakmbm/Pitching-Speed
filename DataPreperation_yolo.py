@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 from glob import glob
 import xml.etree.ElementTree as xet
+import pandas as pd
 import cv2
 import os
 import shutil
@@ -14,12 +15,12 @@ from py._builtin import execfile
 class DataPrepration:
     def __init__(self):
         self.df_all = None
-        self.label_file = 'static/dataset/images-Set1/All/labels.csv'
-        self.labels_path = 'static/dataset/images-Set1/All/'
-        self.images_path = 'static/dataset/images-Set1/All/'
-        self.train_folder = 'static/dataset/images-Set1/train'
-        self.test_folder = 'static/dataset/images-Set1/test'
-        self.frame_save_path = 'static/dataset/All'
+        self.label_file = 'static/dataset/labels.csv'
+        self.labels_path = 'static/dataset/all/'
+        self.images_path = 'static/dataset/all/'
+        self.train_folder = 'static/dataset/train'
+        self.test_folder = 'static/dataset/test'
+        self.frame_save_path = 'static/dataset/All_framed'
 
     def parse_label(self, filename):
         path = f'{self.labels_path}{filename}'
@@ -43,7 +44,8 @@ class DataPrepration:
         self.df_all = df
         return df
 
-    def split_train_test(self, train_size):
+
+    def split_train_test(self, df_all, train_size):
         # split for train and test
         # from 658 images we take 520 for training and the rest for testing
         df_train = self.df_all.iloc[:train_size]
@@ -105,9 +107,20 @@ class DataPrepration:
         print('https://github.com/tzutalin/labelImg')
         os.system('python labelImg-master/labelImg.py')
 
+    def read_data(self):
+        labels_files = glob(self.labels_path + '*.txt')
+        print(len(labels_files))
+        labels_file_names = []
+        for i in range(len(labels_files)):
+            print(i)
+            labels_file_names.append(os.path.basename(str(labels_files[i])))
+        print(labels_file_names)
+
+
 if __name__ == '__main__':
     dp = DataPrepration()
     # dp.video_to_frames(video_path='static/upload/1.mp4')
-    dp.label_images()
+    # dp.label_images()
     # df_all = dp.findCentre()
     # dp.split_train_test(train_size=520)
+    dp.read_data()
