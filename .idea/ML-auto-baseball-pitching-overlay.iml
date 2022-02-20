@@ -17,6 +17,7 @@
       <excludeFolder url="file://$MODULE_DIR$/venv" />
       <excludeFolder url="file://$MODULE_DIR$/static/dataset/test" />
       <excludeFolder url="file://$MODULE_DIR$/static/dataset/train" />
+      <excludeFolder url="file://$MODULE_DIR$/yolov5/runs/train" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.8 (william)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
